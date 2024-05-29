@@ -23,7 +23,15 @@ async function _createSession(configuration: Configuration, editorIFrame: HTMLIF
   try {
     const resizeObserver = new ResizeObserver((entries, _observer) => {
       for (const entry of entries) {
-        const { width, height } = entry.contentRect;
+        let width = 0;
+        let height = 0;
+        if (entry.target) {
+          width = entry.target.clientWidth;
+          height = entry.target.clientHeight;
+        } else {
+          width = entry.contentRect.width;
+          height = entry.contentRect.height;
+        }
 
         const computedStyle = window.getComputedStyle(editorIFrame);
 
